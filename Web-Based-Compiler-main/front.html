@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhanced HTML CSS JS Compiler</title>
+  <style>
+    :root {
+      --bg-light: #f0f2f5;
+      --bg-dark: #1e1e1e;
+      --editor-bg: #2d2d2d;
+      --editor-text: #f8f8f2;
+      --btn-green: #28a745;
+      --btn-blue: #007bff;
+      --btn-red: #dc3545;
+      --radius: 10px;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-light);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 15px;
+    }
+    .editors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+    }
+    .editor {
+      background: var(--editor-bg);
+      color: var(--editor-text);
+      border-radius: var(--radius);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+    .editor h2 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: #00c6ff;
+    }
+    textarea {
+      flex: 1;
+      background: #1e1e1e;
+      color: #f8f8f2;
+      border: none;
+      border-radius: 6px;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 14px;
+      resize: vertical;
+      min-height: 150px;
+      outline: none;
+    }
+    .buttons {
+      text-align: center;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 18px;
+      margin: 5px;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    .run { background: var(--btn-green); }
+    .run:hover { background: #218838; }
+    .clear { background: var(--btn-red); }
+    .clear:hover { background: #a71d2a; }
+    iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+      border-radius: var(--radius);
+      background: white;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+  <header>🌐 Enhanced HTML, CSS & JS Compiler</header>
+  <div class="container">
+    <div class="editors">
+      <div class="editor">
+        <h2>HTML</h2>
+        <textarea id="htmlCode" placeholder="Write HTML here..."></textarea>
+      </div>
+      <div class="editor">
+        <h2>CSS</h2>
+        <textarea id="cssCode" placeholder="Write CSS here..."></textarea>
+      </div>
+      <div class="editor">
+        <h2>JavaScript</h2>
+        <textarea id="jsCode" placeholder="Write JavaScript here..."></textarea>
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="run" onclick="runCode()">▶ Run</button>
+      <button class="clear" onclick="clearCode()">✖ Clear</button>
+    </div>
+    <iframe id="preview"></iframe>
+  </div>
+
+  <script>
+    const htmlCode = document.getElementById('htmlCode');
+    const cssCode = document.getElementById('cssCode');
+    const jsCode = document.getElementById('jsCode');
+    const preview = document.getElementById('preview');
+
+    function runCode() {
+      const html = htmlCode.value;
+      const css = `<style>${cssCode.value}</style>`;
+      const js = `<script>${jsCode.value}<\/script>`;
+      const output = html + css + js;
+      preview.srcdoc = output;
+    }
+
+    function clearCode() {
+      htmlCode.value = '';
+      cssCode.value = '';
+      jsCode.value = '';
+      preview.srcdoc = '';
+    }
+
+    [htmlCode, cssCode, jsCode].forEach(editor => {
+      editor.addEventListener('input', runCode);
+    });
+  </script>
+</body>
+</html>
